@@ -1515,7 +1515,7 @@ async def run_graph(inputs: dict) -> dict:
             # when the ToolsNode (named "tools") is invoked by looking at the AIMessage.tool_calls
             # of the latest input message.
             if chunk["payload"]["name"] == "tools" and chunk["type"] == "task":
-                for tc in chunk["payload"]["input"]["messages"][-1].tool_calls:
+                for tc in chunk["payload"]["input"]["state"]["messages"][-1].tool_calls:
                     trajectory.append(tc["name"])
 
     return {"trajectory": trajectory}
@@ -1541,7 +1541,7 @@ examples = [
                     "content": "i bought some tracks recently and i dont like them",
                 }
             ],
-        }
+        },
         "outputs": {"route": "refund_agent"},
     },
     {
